@@ -11,6 +11,7 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
+  Radar,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { sidebarVariants } from "@/lib/motion";
@@ -18,6 +19,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Analyzer", href: "/analyzer", icon: Radar },
   { label: "Trade Log", href: "/trades", icon: BookOpen },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Calculators", href: "/calculators", icon: Calculator },

@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Market Analyzer
+
+`/analyzer` screens a curated US watchlist (stocks, ETFs, and major FX pairs) against
+your portfolio size, risk-per-trade, risk profile (conservative / normal / aggressive),
+and horizon (day / swing / long). Click any result to see:
+
+- Candlestick pattern detection (engulfing, morning/evening star, hammer, etc.)
+- Strategy-appropriate indicators — Day: VWAP, EMA9/21, RSI; Swing: 20/50/200 SMA, MACD, Bollinger; Long: 50/200 SMA
+- ATR-based stop, R:R-scaled target, position size (shares for equities; lot size + pips for FX)
+- A rules-based verdict (TAKE / WATCH / PASS) with reasons
+- Downloadable Markdown report
+
+No login, no saved state — inputs reset each session. Price data is EOD-delayed via Yahoo Finance.
+
 ## Getting Started
 
 First, run the development server:

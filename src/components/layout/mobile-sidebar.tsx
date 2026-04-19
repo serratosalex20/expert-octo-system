@@ -8,6 +8,7 @@ import {
   BarChart3,
   Calculator,
   Bot,
+  Radar,
 } from "lucide-react";
 import {
   Sheet,
@@ -19,6 +20,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Analyzer", href: "/analyzer", icon: Radar },
   { label: "Trade Log", href: "/trades", icon: BookOpen },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Calculators", href: "/calculators", icon: Calculator },
