@@ -7,15 +7,24 @@ import { Button } from "@/components/ui/button";
 import { fadeIn } from "@/lib/motion";
 import { VerdictBadge } from "./verdict-badge";
 import { PriceChart } from "./price-chart";
-import { DeepAnalysis } from "./deep-analysis";
+import { NarrativePanel } from "./narrative-panel";
 import { toMarkdownReport } from "@/lib/analyzer/report";
-import type { SymbolAnalysis } from "@/lib/analyzer/types";
+import type { AnalyzerInputs, SymbolAnalysis } from "@/lib/analyzer/types";
 
 function fmtMoney(n: number): string {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 function fmtPrice(n: number, a: SymbolAnalysis["assetClass"]): string {
   return a === "fx" ? n.toFixed(5) : `$${n.toFixed(2)}`;
+}
+function inputsToQuery(inputs: AnalyzerInputs): string {
+  return new URLSearchParams({
+    portfolio: String(inputs.portfolio),
+    riskPct: String(inputs.riskPct),
+    riskProfile: inputs.riskProfile,
+    horizon: inputs.horizon,
+    assetClass: inputs.assetClass,
+  }).toString();
 }
 
 function Stat({ label, value, accent }: { label: string; value: string; accent?: "pos" | "neg" | "neutral" }) {
@@ -174,8 +183,8 @@ export function SymbolDetail({ analysis: a, backHref }: Props) {
         </div>
       </div>
 
-      {/* Optional deep agent analysis (TradingAgents sidecar) */}
-      <DeepAnalysis symbol={a.symbol} />
+      {/* AI-written narrative (Claude Haiku) — replaces the heavier TradingAgents panel by default. */}
+      <NarrativePanel symbol={a.symbol} query={inputsToQuery(a.inputs)} />
 
       {/* Reasoning */}
       <div className="glass rounded-xl p-5">

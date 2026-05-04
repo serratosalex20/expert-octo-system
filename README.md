@@ -14,19 +14,27 @@ and horizon (day / swing / long). Click any result to see:
 
 No login, no saved state — inputs reset each session. Price data is EOD-delayed via Yahoo Finance.
 
-### Deep Analysis (optional)
+### AI Narrative (default)
 
-The detail page exposes an optional **Deep Analysis** panel powered by
-[TradingAgents](https://github.com/TauricResearch/TradingAgents) — a multi-agent
-LangGraph framework that runs a fundamentals/news/sentiment/technicals/risk
-debate per ticker. It runs as a separate Python sidecar; see `tradingagents/`
-for the Dockerfile, FastAPI wrapper, and deploy guide. To enable, deploy the
-sidecar and set:
+The detail page calls Claude Haiku 4.5 to generate a written rationale for the
+setup — verdict, evidence, plan, what would invalidate it, and an honest
+confidence call. Roughly $0.005 per run, ~2 second latency. Enable by setting
+`ANTHROPIC_API_KEY` in your env. Get a key at https://console.anthropic.com.
 
-```
-TRADINGAGENTS_URL=https://your-sidecar.example.com
-TRADINGAGENTS_API_SECRET=<shared secret with the sidecar>
-```
+### Strategies
+
+`/strategies` is a hand-curated catalog of 6 trading playbooks (VWAP Bounce,
+EMA Pullback, Bull Flag, MA Crossover, Oversold Reversal, Golden Cross DCA),
+each with a stylized SVG diagram, step-by-step setup, entry/stop/target rules,
+indicators to confirm, and common pitfalls.
+
+### Deep Analysis (optional, heavy)
+
+A multi-agent LangGraph alternative powered by
+[TradingAgents](https://github.com/TauricResearch/TradingAgents) lives in
+`tradingagents/`. It's not wired into the UI by default (the AI narrative
+above is faster and cheaper for daily use). Deploy the sidecar separately and
+re-enable the panel when you want a deeper debate-style analysis.
 
 ## Getting Started
 

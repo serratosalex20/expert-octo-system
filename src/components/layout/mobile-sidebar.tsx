@@ -9,6 +9,7 @@ import {
   Calculator,
   Bot,
   Radar,
+  Lightbulb,
 } from "lucide-react";
 import {
   Sheet,
@@ -21,6 +22,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
   { label: "Analyzer", href: "/analyzer", icon: Radar },
+  { label: "Strategies", href: "/strategies", icon: Lightbulb },
   { label: "Trade Log", href: "/trades", icon: BookOpen },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Calculators", href: "/calculators", icon: Calculator },
