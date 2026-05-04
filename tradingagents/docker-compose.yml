@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  tradingagents:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TRADINGAGENTS_REF: main
+    image: tradingagents-sidecar:local
+    container_name: tradingagents-sidecar
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health').read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

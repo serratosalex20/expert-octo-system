@@ -1,0 +1,8 @@
+# `.dockerignore` so we don't bake secrets into the image.
+.env
+.env.local
+.venv/
+__pycache__/
+upstream/
+*.pyc
+README.md

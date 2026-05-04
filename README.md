@@ -14,6 +14,20 @@ and horizon (day / swing / long). Click any result to see:
 
 No login, no saved state — inputs reset each session. Price data is EOD-delayed via Yahoo Finance.
 
+### Deep Analysis (optional)
+
+The detail page exposes an optional **Deep Analysis** panel powered by
+[TradingAgents](https://github.com/TauricResearch/TradingAgents) — a multi-agent
+LangGraph framework that runs a fundamentals/news/sentiment/technicals/risk
+debate per ticker. It runs as a separate Python sidecar; see `tradingagents/`
+for the Dockerfile, FastAPI wrapper, and deploy guide. To enable, deploy the
+sidecar and set:
+
+```
+TRADINGAGENTS_URL=https://your-sidecar.example.com
+TRADINGAGENTS_API_SECRET=<shared secret with the sidecar>
+```
+
 ## Getting Started
 
 First, run the development server:

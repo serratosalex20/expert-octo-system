@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { fadeIn } from "@/lib/motion";
 import { VerdictBadge } from "./verdict-badge";
 import { PriceChart } from "./price-chart";
+import { DeepAnalysis } from "./deep-analysis";
 import { toMarkdownReport } from "@/lib/analyzer/report";
 import type { SymbolAnalysis } from "@/lib/analyzer/types";
 
@@ -172,6 +173,9 @@ export function SymbolDetail({ analysis: a, backHref }: Props) {
           {i.atr14 != null && <Stat label="ATR(14)" value={fmtPrice(i.atr14, a.assetClass)} />}
         </div>
       </div>
+
+      {/* Optional deep agent analysis (TradingAgents sidecar) */}
+      <DeepAnalysis symbol={a.symbol} />
 
       {/* Reasoning */}
       <div className="glass rounded-xl p-5">
