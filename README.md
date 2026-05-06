@@ -12,7 +12,11 @@ and horizon (day / swing / long). Click any result to see:
 - A rules-based verdict (TAKE / WATCH / PASS) with reasons
 - Downloadable Markdown report
 
-No login, no saved state — inputs reset each session. Price data is EOD-delayed via Yahoo Finance.
+No login, no saved state — inputs reset each session.
+
+**Market data sources (in priority order):**
+1. **Massive.com** (formerly Polygon.io) — official paid US market data API covering stocks, ETFs, FX, options, crypto. Used as the primary source when `MASSIVE_API_KEY` is set. Real-time on paid tiers; free tier is 5 calls/min (tight for the 60-symbol screener).
+2. **Yahoo Finance** (via `yahoo-finance2`) — fallback when Massive is unconfigured, rate-limited, or fails. Unofficial; EOD only.
 
 ### AI Narrative (default)
 

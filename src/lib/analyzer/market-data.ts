@@ -2,6 +2,7 @@ import YahooFinance from "yahoo-finance2";
 import type { Candle, WatchlistEntry } from "./types";
 import type { Horizon } from "./types";
 import { resolveYahooSymbol } from "./watchlist";
+import { fetchHistoryFromMassive, massiveAvailable } from "./massive";
 
 const yahooFinance = new YahooFinance();
 yahooFinance._notices.suppress(["yahooSurvey", "ripHistorical"]);
@@ -20,7 +21,7 @@ export interface PriceHistory {
   changePct: number;
 }
 
-export async function fetchHistory(
+async function fetchHistoryFromYahoo(
   entry: WatchlistEntry,
   horizon: Horizon,
 ): Promise<PriceHistory | null> {
@@ -57,7 +58,7 @@ export async function fetchHistory(
       });
     }
     if (candles.length < 30) {
-      console.warn(`[analyzer] ${yahooSymbol}: only ${candles.length} candles`);
+      console.warn(`[yahoo] ${yahooSymbol}: only ${candles.length} candles`);
       return null;
     }
     const last = candles[candles.length - 1];
@@ -65,12 +66,27 @@ export async function fetchHistory(
     const changePct = ((last.close - prev.close) / prev.close) * 100;
     return { candles, latestClose: last.close, prevClose: prev.close, changePct };
   } catch (err) {
-    console.warn(`[analyzer] ${yahooSymbol}: fetch failed`, err instanceof Error ? err.message : err);
+    console.warn(`[yahoo] ${yahooSymbol}: fetch failed`, err instanceof Error ? err.message : err);
     return null;
   }
 }
 
+// Try Massive first (paid, official, real-time on paid tiers); fall back to
+// Yahoo Finance if Massive is unconfigured, rate-limited, or otherwise fails.
+// This keeps the app resilient on free tiers and during outages.
+export async function fetchHistory(
+  entry: WatchlistEntry,
+  horizon: Horizon,
+): Promise<PriceHistory | null> {
+  if (massiveAvailable()) {
+    const massive = await fetchHistoryFromMassive(entry, horizon);
+    if (massive) return massive;
+  }
+  return fetchHistoryFromYahoo(entry, horizon);
+}
+
 // Limit concurrency so we don't trip rate limits when screening ~60 symbols.
+// Tune lower if you're on Massive's free tier (5 RPM).
 export async function mapLimit<T, R>(
   items: T[],
   limit: number,
